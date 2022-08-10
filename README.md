@@ -1,2 +1,2 @@
-# BridgeBuilder
-Python script to generate ACPI for PCI bridges using DSDT + Device Paths
+# ACPIRename
+Py script to list paths in DSDT as well as generate unique method/device renames.
