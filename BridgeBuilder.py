@@ -130,8 +130,7 @@ class BridgeBuilder:
 
     def generate_ssdt(self,scope,bridges):
         # Let's create an SSDT that sets up our PCI bridges
-        ssdt = """
-// Source and info from:
+        ssdt = """// Source and info from:
 // https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/AcpiSamples/Source/SSDT-BRG0.dsl
 DefinitionBlock ("", "SSDT", 2, "CORP", "PCIBRG", 0x00000000)
 {
@@ -147,7 +146,9 @@ DefinitionBlock ("", "SSDT", 2, "CORP", "PCIBRG", 0x00000000)
         for i,bridge in enumerate(bridges,start=2):
             if i-1==len(bridges):
                 ssdt += pc*i + "// Customize this device name if needed, eg. GFX0\n"
-            ssdt += pc*i + "Device ({})\n".format(bridge[0])
+                ssdt += pc*i + "Device (PXSX)\n"
+            else:
+                ssdt += pc*i + "Device ({})\n".format(bridge[0])
             ssdt += pc*i + "{\n"
             ssdt += pc*(i+1) + "Name (_ADR, {})\n".format(bridge[1])
             ssdt_end = pc*i + "}\n" + ssdt_end
