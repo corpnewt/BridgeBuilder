@@ -86,7 +86,7 @@ class DSDT:
         # iasl zip
         try:
             source = self.dl.get_string(self.acpi_binary_tools)
-            url = source.lower().split("\">iasl compiler and windows acpi tools")[0].split("<a href=\"")[-1]
+            url = source.split("\">iASL compiler and Windows ACPI tools")[0].split("<a href=\"")[-1]
             return url
         except: pass
         return None
@@ -147,7 +147,7 @@ class DSDT:
                 print("   - Copying to {} directory".format(os.path.basename(script_dir)))
                 shutil.copy(os.path.join(search_dir,x), os.path.join(script_dir,x))
 
-    def dump_dsdt(self, output):
+    def dump_dsdt(self, output, decompile = True):
         self.u.head("Dumping DSDT")
         print("")
         res = self.check_output(output)
@@ -166,6 +166,8 @@ class DSDT:
                 if out[2] != 0:
                     print(" - {}".format(out[1]))
                 print("Success!")
+                if not decompile: # Not attempting to decompile it - just return the path
+                    return dsdt_path
                 if self.load(dsdt_path):
                     self.u.grab("Press [enter] to return to main menu...")
                     return dsdt_path
@@ -194,6 +196,8 @@ class DSDT:
                 print("Dump successful!")
                 print("Moving DSDT to better location.")
                 shutil.move(dump,dsdt_path)
+                if not decompile: # Not attempting to decompile it - just return the path
+                    return dsdt_path
                 if self.load(dsdt_path):
                     print("Success!")
                     self.u.grab("Press [enter] to return to main menu...")
